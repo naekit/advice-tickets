@@ -8,15 +8,53 @@ const defaultCartState = {
 
 const cartReducer = (state, action) => {
 	if (action.type === "ADD_ITEM") {
-		const updatedItem = state.items.concat(action.payload)
 		const updatedTotal =
 			state.totalAmount + action.payload.price * action.payload.amount
+		const existingItemIndex = state.items.findIndex(
+			(item) => item.id === action.payload.id
+		)
+		const existingItem = state.items[existingItemIndex]
+
+		let updatedItems
+		if (existingItem) {
+			const updatedItem = {
+				...existingItem,
+				amount: existingItem.amount + action.payload.amount,
+			}
+			updatedItems = [...state.items]
+			updatedItems[existingItemIndex] = updatedItem
+		} else {
+			updatedItems = state.items.concat(action.payload)
+		}
+
 		return {
-			items: updatedItem,
+			items: updatedItems,
 			totalAmount: updatedTotal,
 		}
 	}
 	if (action.type === "REMOVE_ITEM") {
+		const existingItemIndex = state.items.findIndex(
+			(item) => item.id === action.id
+		)
+		const existingItem = state.items[existingItemIndex]
+		const updatedTotal = state.totalAmount - existingItem.price
+		let updatedItems
+		if (existingItem.amount === 1) {
+			updatedItems = state.items
+			updatedItems.splice(existingItemIndex, 1)
+		} else {
+			const updatedItem = {
+				...existingItem,
+				amount: existingItem.amount - 1,
+			}
+			updatedItems = [...state.items]
+			updatedItems[existingItemIndex] = updatedItem
+			console.log(updatedItems)
+		}
+		return {
+			items: updatedItems,
+			totalAmount: updatedTotal,
+		}
 	}
 	return defaultCartState
 }
@@ -27,8 +65,8 @@ const CartProvider = ({ children }) => {
 	const addItemToCartHandler = (item) => {
 		dispatchCart({ type: "ADD_ITEM", payload: item })
 	}
-	const removeItemFromCartHandler = (item) => {
-		dispatchCart({ type: "REMOVE_ITEM", payload: item })
+	const removeItemFromCartHandler = (id) => {
+		dispatchCart({ type: "REMOVE_ITEM", id: id })
 	}
 
 	const cartContext = {

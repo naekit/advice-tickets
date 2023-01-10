@@ -17,16 +17,16 @@ const ADVICE = [
 		price: 33.33,
 	},
 	{
-		id: "m3",
-		name: "Manifestation",
-		description: "Request for building intention",
-		price: 55.55,
-	},
-	{
 		id: "m4",
 		name: "Discovery",
 		description: "Revelation on chosen topic",
 		price: 44.44,
+	},
+	{
+		id: "m3",
+		name: "Manifestation",
+		description: "Request for building intention",
+		price: 55.55,
 	},
 ]
 

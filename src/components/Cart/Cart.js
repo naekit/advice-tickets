@@ -7,8 +7,12 @@ import CartItem from "./CartItem"
 const Cart = ({ onToggle }) => {
 	const ctx = useContext(CartContext)
 
-	const removeCartItem = (id) => {}
-	const addCartItem = (id) => {}
+	const removeCartItem = (id) => {
+		ctx.removeItem(id)
+	}
+	const addCartItem = (item) => {
+		ctx.addItem({ ...item, amount: 1 })
+	}
 
 	const cartItems = (
 		<ul className={classes["cart-items"]}>
@@ -19,7 +23,7 @@ const Cart = ({ onToggle }) => {
 					amount={item.amount}
 					price={item.price}
 					onRemove={removeCartItem.bind(null, item.id)}
-					onAdd={addCartItem(null, item.id)}
+					onAdd={addCartItem.bind(null, item)}
 				/>
 			))}
 		</ul>

@@ -1,8 +1,9 @@
-import React, { useRef } from "react"
+import React, { useRef, useState } from "react"
 import Input from "../../UI/Input"
 import classes from "./AdviceItemForm.module.css"
 
-const AdviceItemForm = ({ id }) => {
+const AdviceItemForm = ({ id, onAddToCart }) => {
+	const [validAmount, setValidAmount] = useState(true)
 	const inputRef = useRef()
 
 	const submitHandler = (e) => {
@@ -16,8 +17,11 @@ const AdviceItemForm = ({ id }) => {
 			amountNumber < 1 ||
 			amountNumber > 5
 		) {
+			setValidAmount(false)
 			return
 		}
+
+		onAddToCart(amountNumber)
 	}
 
 	return (
@@ -31,10 +35,11 @@ const AdviceItemForm = ({ id }) => {
 					min: "1",
 					max: "5",
 					step: "1",
-					default: "1",
+					defaultValue: "1",
 				}}
 			/>
 			<button>+ Add</button>
+			{!validAmount && <p>Please enter a valid amount (1-5)</p>}
 		</form>
 	)
 }

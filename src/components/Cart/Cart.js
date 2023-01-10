@@ -8,7 +8,7 @@ const Cart = ({ onToggle }) => {
 	].map((item) => <li>{item.name}</li>)
 
 	return (
-		<Modal>
+		<Modal onToggle={onToggle}>
 			<ul className={classes["card-items"]}>{cartItems}</ul>
 			<div className={classes.total}>
 				<span>Total Amount</span>

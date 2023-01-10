@@ -1,24 +1,46 @@
-import React from "react"
+import React, { useContext } from "react"
 import classes from "./Cart.module.css"
 import Modal from "../UI/Modal"
+import CartContext from "../../context/cart-context"
+import CartItem from "./CartItem"
 
 const Cart = ({ onToggle }) => {
-	const cartItems = [
-		{ id: "c1", name: "Manifestation", amount: 2, price: 12.99 },
-	].map((item) => <li>{item.name}</li>)
+	const ctx = useContext(CartContext)
+
+	const removeCartItem = (id) => {}
+	const addCartItem = (id) => {}
+
+	const cartItems = (
+		<ul className={classes["cart-items"]}>
+			{ctx.items.map((item) => (
+				<CartItem
+					key={item.id}
+					name={item.name}
+					amount={item.amount}
+					price={item.price}
+					onRemove={removeCartItem.bind(null, item.id)}
+					onAdd={addCartItem(null, item.id)}
+				/>
+			))}
+		</ul>
+	)
+
+	const totalAmount = `$ ${ctx.totalAmount.toFixed(2)}`
+
+	const hasItems = ctx.items.length > 0
 
 	return (
 		<Modal onToggle={onToggle}>
-			<ul className={classes["card-items"]}>{cartItems}</ul>
+			{cartItems}
 			<div className={classes.total}>
 				<span>Total Amount</span>
-				<span>35.62</span>
+				<span>{totalAmount}</span>
 			</div>
 			<div className={classes.actions}>
 				<button onClick={onToggle} className={classes["button--alt"]}>
 					Close
 				</button>
-				<button className={classes.button}>Order</button>
+				{hasItems && <button className={classes.button}>Order</button>}
 			</div>
 		</Modal>
 	)

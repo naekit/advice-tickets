@@ -2,9 +2,9 @@
 	cursor: pointer;
 	font: inherit;
 	border: none;
-	background-color: rgba(43, 199, 186, 0.863);
-	color: #050313;
-	padding: 0.75rem 3rem;
+	background-color: rgb(230, 230, 230);
+	color: #141414;
+	padding: 0.5rem 3rem;
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
@@ -14,7 +14,9 @@
 
 .button:hover,
 .button:active {
-	background-color: rgb(43, 199, 186);
+	background-color: #141414;
+	color: rgb(230, 230, 230);
+	border: 3px solid rgb(230, 230, 230);
 }
 
 .icon {
@@ -27,14 +29,14 @@
 	background-color: #050313;
 	color: rgb(43, 199, 186);
 	padding: 0.25rem 1rem;
-	border-radius: 25px;
+	border-radius: 5px;
 	margin-left: 1rem;
-	font-weight: bold;
+	font-weight: bolder;
 }
 
 .button:hover .badge,
 .button:active .badge {
-	background-color: #946012;
+	background-color: rgb(230, 230, 230);
 	color: #050313;
 }
 

@@ -1,5 +1,6 @@
 import React from "react"
 import Card from "../UI/Card"
+import AdviceItem from "./AdviceItem/AdviceItem"
 import classes from "./OpenAdvice.module.css"
 
 const ADVICE = [
@@ -30,7 +31,15 @@ const ADVICE = [
 ]
 
 const OpenAdvice = () => {
-	const adviceList = ADVICE.map((item) => <li>{item.name}</li>)
+	const adviceList = ADVICE.map((item) => (
+		<AdviceItem
+			id={item.id}
+			key={item.id}
+			name={item.name}
+			price={item.price}
+			description={item.description}
+		/>
+	))
 
 	return (
 		<section className={classes.advice}>

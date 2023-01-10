@@ -1,3 +1,4 @@
+import Advice from "./components/Advice/Advice"
 import Header from "./components/Layout/Header"
 
 function App() {
@@ -5,6 +6,9 @@ function App() {
 		<>
 			<h2>Let's get started!</h2>
 			<Header />
+			<main>
+				<Advice />
+			</main>
 		</>
 	)
 }

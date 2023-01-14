@@ -1,7 +1,7 @@
 import { useRef, useState } from "react"
 import classes from "./Checkout.module.css"
 
-const Checkout = ({ handleOrder }) => {
+const Checkout = ({ handleOrder, onOrder }) => {
 	const [formInputValid, setFormInputValid] = useState({
 		name: true,
 		street: true,
@@ -43,6 +43,8 @@ const Checkout = ({ handleOrder }) => {
 			return
 		}
 		// submit here
+		onOrder(userOrder)
+		formRef.current.reset()
 	}
 
 	return (

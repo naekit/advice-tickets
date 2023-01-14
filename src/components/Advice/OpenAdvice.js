@@ -6,14 +6,18 @@ import classes from "./OpenAdvice.module.css"
 const OpenAdvice = () => {
 	const [advice, setAdvice] = useState([])
 	const [loading, setLoading] = useState(true)
+	const [hasError, setHasError] = useState(null)
 
 	useEffect(() => {
 		const getAdvice = async () => {
 			const res = await fetch(
 				"https://checkout-collect-default-rtdb.firebaseio.com/items.json"
 			)
-			const data = await res.json()
+			if (!res.ok) {
+				throw new Error("Oops! something is wrong :(")
+			}
 
+			const data = await res.json()
 			const loadedItems = []
 			for (const key in data) {
 				loadedItems.push({
@@ -26,8 +30,15 @@ const OpenAdvice = () => {
 			setLoading(false)
 			setAdvice(loadedItems)
 		}
-		getAdvice()
+
+		getAdvice().catch((error) => {
+			setLoading(false)
+			setHasError(error.message)
+		})
 	}, [])
+
+	console.log(hasError)
+	console.log(loading)
 
 	const adviceList = advice.map((item) => (
 		<AdviceItem
@@ -41,7 +52,15 @@ const OpenAdvice = () => {
 
 	return (
 		<section className={classes.advice}>
-			<Card>{loading ? <p>...loading</p> : <ul>{adviceList}</ul>}</Card>
+			<Card>
+				{hasError ? (
+					<p className={classes.error}>{hasError}</p>
+				) : loading ? (
+					<p className={classes.loading}>...loading</p>
+				) : (
+					<ul>{adviceList}</ul>
+				)}
+			</Card>
 		</section>
 	)
 }

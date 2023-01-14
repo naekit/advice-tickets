@@ -5,6 +5,7 @@ import classes from "./OpenAdvice.module.css"
 
 const OpenAdvice = () => {
 	const [advice, setAdvice] = useState([])
+	const [loading, setLoading] = useState(true)
 
 	useEffect(() => {
 		const getAdvice = async () => {
@@ -22,6 +23,7 @@ const OpenAdvice = () => {
 					price: data[key].price,
 				})
 			}
+			setLoading(false)
 			setAdvice(loadedItems)
 		}
 		getAdvice()
@@ -39,9 +41,7 @@ const OpenAdvice = () => {
 
 	return (
 		<section className={classes.advice}>
-			<Card>
-				<ul>{adviceList}</ul>
-			</Card>
+			<Card>{loading ? <p>...loading</p> : <ul>{adviceList}</ul>}</Card>
 		</section>
 	)
 }

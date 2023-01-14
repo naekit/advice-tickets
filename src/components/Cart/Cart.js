@@ -1,10 +1,12 @@
-import React, { useContext } from "react"
+import React, { useContext, useState } from "react"
 import classes from "./Cart.module.css"
 import Modal from "../UI/Modal"
 import CartContext from "../../context/cart-context"
 import CartItem from "./CartItem"
+import Checkout from "./Checkout"
 
 const Cart = ({ onToggle }) => {
+	const [showOrder, setShowOrder] = useState(false)
 	const ctx = useContext(CartContext)
 
 	const removeCartItem = (id) => {
@@ -12,6 +14,10 @@ const Cart = ({ onToggle }) => {
 	}
 	const addCartItem = (item) => {
 		ctx.addItem({ ...item, amount: 1 })
+	}
+	const orderHandler = (e) => {
+		e.preventDefault()
+		setShowOrder((prevState) => !prevState)
 	}
 
 	const cartItems = (
@@ -33,6 +39,19 @@ const Cart = ({ onToggle }) => {
 
 	const hasItems = ctx.items.length > 0
 
+	const actionsModal = (
+		<div className={classes.actions}>
+			<button onClick={onToggle} className={classes["button--alt"]}>
+				Close
+			</button>
+			{hasItems && (
+				<button onClick={orderHandler} className={classes.button}>
+					Order
+				</button>
+			)}
+		</div>
+	)
+
 	return (
 		<Modal onToggle={onToggle}>
 			{cartItems}
@@ -40,12 +59,8 @@ const Cart = ({ onToggle }) => {
 				<span>Total Amount</span>
 				<span>{totalAmount}</span>
 			</div>
-			<div className={classes.actions}>
-				<button onClick={onToggle} className={classes["button--alt"]}>
-					Close
-				</button>
-				{hasItems && <button className={classes.button}>Order</button>}
-			</div>
+			{showOrder && <Checkout handleOrder={orderHandler} />}
+			{!showOrder && actionsModal}
 		</Modal>
 	)
 }

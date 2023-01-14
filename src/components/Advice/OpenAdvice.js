@@ -1,37 +1,33 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import Card from "../UI/Card"
 import AdviceItem from "./AdviceItem/AdviceItem"
 import classes from "./OpenAdvice.module.css"
 
-const ADVICE = [
-	{
-		id: "m1",
-		name: "Life General",
-		description: "Ask any question",
-		price: 22.22,
-	},
-	{
-		id: "m2",
-		name: "Love",
-		description: "Get insight into relationship",
-		price: 33.33,
-	},
-	{
-		id: "m4",
-		name: "Discovery",
-		description: "Revelation on chosen topic",
-		price: 44.44,
-	},
-	{
-		id: "m3",
-		name: "Manifestation",
-		description: "Request for building intention",
-		price: 55.55,
-	},
-]
-
 const OpenAdvice = () => {
-	const adviceList = ADVICE.map((item) => (
+	const [advice, setAdvice] = useState([])
+
+	useEffect(() => {
+		const getAdvice = async () => {
+			const res = await fetch(
+				"https://checkout-collect-default-rtdb.firebaseio.com/items.json"
+			)
+			const data = await res.json()
+
+			const loadedItems = []
+			for (const key in data) {
+				loadedItems.push({
+					id: key,
+					name: data[key].name,
+					description: data[key].description,
+					price: data[key].price,
+				})
+			}
+			setAdvice(loadedItems)
+		}
+		getAdvice()
+	}, [])
+
+	const adviceList = advice.map((item) => (
 		<AdviceItem
 			id={item.id}
 			key={item.id}
